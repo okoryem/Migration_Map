@@ -25,6 +25,8 @@ public class WorldMap {
         this.loadMap();
         //this.loadOverLays();
         this.loadScene();
+        MigrationAPI api = new MigrationAPI();
+        System.out.println(api.getRefugees("2022", "CO", "US"));
     }
 
     public Pane getRoot() {

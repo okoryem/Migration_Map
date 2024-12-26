@@ -5,18 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="af8fcd08-5039-46a0-80a3-3b7bae9cf028" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/batik_slideshow_1_18.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/lib.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Migration_Map.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/com/migration_map/Main.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/com/migration_map/SVGPathExtractor.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/com/migration_map/WorldMap.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/world.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/all.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/migration_map/CountryCodes.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/migration_map/MigrationAPI.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/migration_map/UNHCRData.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/migration_map/UNHCRResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Migration_Map.iml" beforeDir="false" afterPath="$PROJECT_DIR$/Migration_Map.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/migration_map/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/migration_map/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/migration_map/WorldMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/migration_map/WorldMap.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -49,7 +46,7 @@
     "git-widget-placeholder": "master",
     "kotlin-language-version-configured": "true",
     "onboarding.tips.debug.path": "/Users/macbook/IdeaProjects/Migration_Map/src/Main.java",
-    "project.structure.last.edited": "Libraries",
+    "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2"
   }

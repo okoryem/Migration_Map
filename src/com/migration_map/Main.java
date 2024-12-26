@@ -31,6 +31,10 @@ public class Main extends Application{
         WorldMap worldMap = new WorldMap(primaryStage, root);
         //System.out.println(worldMap.getCountry("AG"));
         worldMap.paintCountry("CO");
+        MigrationAPI api = new MigrationAPI();
+        System.out.println(api.getRefugees("1990", "CO", "US"));
+        CountryCodes codes = new CountryCodes();
+        System.out.println(codes.convertCode("CO"));
     }
 
     public static void main(String[] args) {
