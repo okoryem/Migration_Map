@@ -47,7 +47,7 @@ public class SVGPathExtractor {
             }
             paths.put(id, pathData);
         }
-        System.out.println(counter);
+        //System.out.println(counter);
 
 
         //paths.forEach((key, value) -> System.out.println("ID: " + key + ", Path: " + value));

@@ -13,14 +13,15 @@ import com.google.gson.Gson;
 
 public class MigrationAPI {
     private URL url;
-    private String limit = "100";
-    private String yearFrom = "1990";
-    private String yearTo = "2000";
-    private  String year = "2023";
+    private String limit;
+    private String yearFrom;
+    private String yearTo;
+    private String year;
     private String coo = "COL";
     private String coa = "USA";
     private HttpURLConnection connection;
-    private CountryCodes codes = new CountryCodes();
+    private final CountryCodes codes;
+
 
     public URL getUrl() {
         return url;
@@ -83,88 +84,39 @@ public class MigrationAPI {
         this.connection = connection;
     }
 
-    MigrationAPI() {
+    MigrationAPI(CountryCodes codes) {
+        this.codes = codes;
+        limit = "100";
+        yearFrom = "2022";
+        yearTo = "2023";
+        year = "2023";
+        coo = "COL";
+        coa = "USA";
+
+        /*
         try {
             connect();
         } catch (Exception e) {
             e.printStackTrace();
         }
-        /*
-        try {
-            //url = new URL("https://api.unhcr.org/population/v1/population/?limit=10&yearFrom=2014&yearTo=2023");
-            //url = new URL("https://api.unhcr.org/population/v1/unrwa/?page=56&limit=56&yearFrom=56&yearTo=56&year=&download=true&coo=coo_example&coa=coa_example&coo_all=true&coa_all=true&cf_type=cfType_example");
-            /*
-            url = new URL("https://api.unhcr.org/population/v1/population/?"
-                    + "limit=" + limit
-                    + "&yearFrom=" + yearFrom
-                    + "&yearTo=" + yearTo
-                    + "&coo=" + coo
-                    + "&coa" + coa);
 
-             */
-
-            /*
-            url = new URL("https://api.unhcr.org/population/v1/population/?"
-                    + "limit=" + limit
-                    + "&year=" + year
-                    + "&coo=" + coo
-                    + "&coa" + coa);
-
-
-            connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("GET");
-            connection.connect();
-
-            int responseCode = connection.getResponseCode();
-
-
-            if (responseCode != 200) {
-                throw new RuntimeException("HttpResponseCode: " + responseCode);
-
-
-            } else {
-                StringBuilder informationString = new StringBuilder();
-                Scanner scanner = new Scanner(url.openStream());
-
-                while (scanner.hasNext()) {
-                    informationString.append(scanner.nextLine());
-                }
-
-                scanner.close();
-
-                System.out.println(informationString + "\n");
-                String info = informationString.toString();
-
-                Gson gson = new Gson();
-                UNHCRResponse data = gson.fromJson(info, UNHCRResponse.class);
-
-                List<UNHCRData> dataU = data.getItems();
-
-                for (UNHCRData dataI : dataU) {
-                    System.out.println("Refugees:" + dataI.getRefugees());
-                }
-
-
-            }
-
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-
-             */
-
+         */
 
     }
 
 
     private void connect() throws Exception{
-        url = new URL("https://api.unhcr.org/population/v1/population/?"
+        if (connection != null) {
+            connection.disconnect();
+        }
+
+         this.url = new URL("https://api.unhcr.org/population/v1/population/?"
                 + "limit=" + limit
-                + "&year=" + year
+                + "&yearFrom=" + yearFrom
+                + "&yearTo=" + yearTo
                 + "&coo=" + coo
                 + "&coa" + coa);
+
 
         connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("GET");
@@ -172,17 +124,22 @@ public class MigrationAPI {
 
         int responseCode = connection.getResponseCode();
 
-
         if (responseCode != 200) {
             throw new RuntimeException("HttpResponseCode: " + responseCode);
         }
     }
 
 
-    public String getRefugees(String newYear,String cooTwoLetter, String coaTwoLetter) {
+    public Integer getRefugees(String cooTwoLetter, String coaTwoLetter) {
         String convertedCoo = codes.convertCode(cooTwoLetter);
         String convertedCoa = codes.convertCode(coaTwoLetter);
-        setUrlParameters(newYear, convertedCoo, convertedCoa);
+        setUrlParameters(convertedCoo, convertedCoa);
+
+        try {
+            connect();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
 
         StringBuilder informationString = new StringBuilder();
         Scanner scanner;
@@ -192,15 +149,24 @@ public class MigrationAPI {
             throw new RuntimeException(e);
         }
 
-        String output = "";
+        Integer output = null;
 
         while (scanner.hasNext()) {
             informationString.append(scanner.nextLine());
         }
 
+
         scanner.close();
 
         String info = informationString.toString();
+
+        /*
+        #######
+        #######
+        Error somehwere in here
+        #######
+        #######
+         */
 
         Gson gson = new Gson();
         UNHCRResponse data = gson.fromJson(info, UNHCRResponse.class);
@@ -209,22 +175,38 @@ public class MigrationAPI {
 
 
         for (UNHCRData dataI : dataU) {
-            output = "Refugees:" + dataI.getRefugees();
+            output = dataI.getRefugees();
         }
 
         return output;
+
+        /*
+        #######
+        #######
+        #######
+        #######
+         */
     }
 
-    private void setUrlParameters(String newYear, String newCoo, String newCoa) {
+    private void setUrlParameters(String newCoo, String newCoa) {
+        /*
         try {
-            url = new URL("https://api.unhcr.org/population/v1/population/?"
+            URL url = new URL("https://api.unhcr.org/population/v1/population/?"
                     + "limit=" + limit
-                    + "&year=" + newYear
+                    + "&yearFrom=" + yearFrom
+                    + "&yearTo=" + yearTo
                     + "&coo=" + newCoo
                     + "&coa" + newCoa);
+
+            connect();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+
+         */
+        this.coo = newCoo;
+        this.coa = newCoa;
+
     }
 }
 

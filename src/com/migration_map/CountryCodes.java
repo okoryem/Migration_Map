@@ -6,7 +6,8 @@ import java.io.File;
 import java.util.Scanner;
 
 public class CountryCodes {
-    private Map<String, String[]> codes = new HashMap<>();
+    //private Map<String, String[]> codes = new HashMap<>();
+    private Map<String, String> codes = new HashMap<>();
     private final File csvFile = new File("all.csv");
 
     CountryCodes() {
@@ -24,7 +25,9 @@ public class CountryCodes {
 
                 String[] countryArray = {countryInfoSplit[0], countryInfoSplit[2]};
 
-                codes.put(countryInfoSplit[1], countryArray);
+
+                //codes.put(countryInfoSplit[1], countryArray);
+                codes.put(countryInfoSplit[1], countryInfoSplit[2]);
             }
         } catch (Exception e) {
             System.out.println("File not found");
@@ -32,7 +35,8 @@ public class CountryCodes {
     }
 
     public String convertCode(String twoLetter) {
-        String[] arr = codes.get(twoLetter);
-        return arr[1];
+        //String[] arr = codes.get(twoLetter);
+        //return arr[1];
+        return codes.get(twoLetter);
     }
 }

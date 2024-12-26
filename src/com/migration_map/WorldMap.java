@@ -13,20 +13,32 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class WorldMap {
-    private Pane root;
-    private Stage primaryStage;
+    private final Pane root;
+    private final Stage primaryStage;
     private Map<String, String> mapPaths;
     private Group mapGroup;
-    private Map <String, SVGPath> svgCountries = new HashMap<>();
+    private final Map <String, SVGPath> svgCountries = new HashMap<>();
+    private final Map<SVGPath, String> svgToCode = new HashMap<>();
+    private MigrationAPI api;
+    private final CountryCodes codes;
 
-    WorldMap(Stage primaryStage, Pane root) {
+    WorldMap(Stage primaryStage, Pane root, CountryCodes codes) {
         this.primaryStage = primaryStage;
         this.root = root;
+        this.codes = codes;
         this.loadMap();
         //this.loadOverLays();
         this.loadScene();
-        MigrationAPI api = new MigrationAPI();
-        System.out.println(api.getRefugees("2022", "CO", "US"));
+        api = new MigrationAPI(codes);
+        //System.out.println(api.getRefugees("2022", "CO", "US"));
+        //System.out.println(svgCountries.get("CO"));
+        //System.out.println(svgToCode.get(getCountry("CO")));
+        //System.out.println("conversion: " + svgToCode.get("CO"));
+        //System.out.println("conversion: " + svgToCode.get("AF"));
+    }
+
+    public MigrationAPI getApi() {
+        return api;
     }
 
     public Pane getRoot() {
@@ -50,6 +62,22 @@ public class WorldMap {
         country.setFill(Color.YELLOW);
     }
 
+    public void getRefugees(SVGPath coo, String year) {
+        //MigrationAPI api = new MigrationAPI(codes);
+        //System.out.println(api.getRefugees(svgToCode.get(coo), "US"));
+        // System.out.println("code: " + svgToCode.get(coo));
+        //System.out.println(api.getRefugees("MX", "US"));
+        System.out.println(api.getRefugees(svgToCode.get(coo), "US"));
+        //return api.getRefugees(year, svgToCode.get(coo), "US");
+    }
+
+    private void sayHi() {
+        //MigrationAPI api = new MigrationAPI(codes);
+        //System.out.println("HI");
+        //System.out.println(api.getRefugees(svgToCode.get("CO"), "US"));
+        //System.out.println(api.getRefugees(svgToCode.get("AF"), "US"));
+    }
+
     private void loadMap () {
         try {
             mapPaths = SVGPathExtractor.extractPaths("/Users/macbook/IdeaProjects/Migration_Map/world.svg");
@@ -64,13 +92,16 @@ public class WorldMap {
                 mapPath.setContent(pathData);
                 mapPath.setFill(Color.web("#3b3b3b"));
                 mapPath.setStroke(Color.web("#4b4b4b"));
-
                 mapPath.setOnMouseEntered(event -> mapPath.setFill(Color.web("#666666")));
                 mapPath.setOnMouseExited(event -> mapPath.setFill(Color.web("#3b3b3b")));
+                //mapPath.setOnMouseClicked(event -> System.out.println(getRefugees(mapPath, "2022")));
+                mapPath.setOnMouseClicked(event -> getRefugees(mapPath, "2022"));
+                //mapPath.setOnMouseClicked(event -> sayHi());
 
                 mapGroup.getChildren().add(mapPath);
 
                 svgCountries.put(id, mapPath);
+                svgToCode.put(mapPath, id);
             }
             mapGroup.setLayoutX(200);
             mapGroup.setLayoutY(50);
