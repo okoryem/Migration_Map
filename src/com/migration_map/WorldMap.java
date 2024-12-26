@@ -71,6 +71,19 @@ public class WorldMap {
         //return api.getRefugees(year, svgToCode.get(coo), "US");
     }
 
+    /*
+    getRefugees from two countries draft
+
+    have a class attribute array
+        set it to empty
+        when a country is clicked check is array[0] is null/empty
+            if null/empty add it country to array[0] and do nothing for now
+                (need to figure how to get the top 5 countries to and from)
+            if array[0] isn't null/empty add it to array[1] and run method above
+                with the parameters of array[0] and array[1]
+
+     */
+
     private void sayHi() {
         //MigrationAPI api = new MigrationAPI(codes);
         //System.out.println("HI");
