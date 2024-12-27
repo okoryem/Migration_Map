@@ -21,6 +21,7 @@ public class WorldMap {
     private final Map<SVGPath, String> svgToCode = new HashMap<>();
     private MigrationAPI api;
     private final CountryCodes codes;
+    private SVGPath[] compareArray = {null, null};
 
     WorldMap(Stage primaryStage, Pane root, CountryCodes codes) {
         this.primaryStage = primaryStage;
@@ -63,12 +64,34 @@ public class WorldMap {
     }
 
     public void getRefugees(SVGPath coo, String year) {
-        //MigrationAPI api = new MigrationAPI(codes);
         //System.out.println(api.getRefugees(svgToCode.get(coo), "US"));
-        // System.out.println("code: " + svgToCode.get(coo));
-        //System.out.println(api.getRefugees("MX", "US"));
-        System.out.println(api.getRefugees(svgToCode.get(coo), "US"));
-        //return api.getRefugees(year, svgToCode.get(coo), "US");
+        if (coo == compareArray[0] && compareArray[1] == null) {
+            System.out.println(api.getRefugees(svgToCode.get(compareArray[0]), svgToCode.get(compareArray[1])));
+        }
+
+        if (compareArray[0] == null && compareArray[1] == null) {
+            compareArray[0] = coo;
+            coo.setFill(Color.YELLOW);
+            coo.setOnMouseExited(event -> coo.setFill(Color.YELLOW));
+            //System.out.println(api.getRefugees(svgToCode.get(compareArray[0]), svgToCode.get(compareArray[1])));
+        } else if (compareArray[0] != null && compareArray[1] == null) {
+            compareArray[1] = coo;
+            coo.setFill(Color.BLUE);
+            coo.setOnMouseExited(event -> coo.setFill(Color.BLUE));
+            System.out.println(api.getRefugees(svgToCode.get(compareArray[0]), svgToCode.get(compareArray[1])));
+        } else if (compareArray[0] != null && compareArray[1] != null) {
+            compareArray[0].setFill(Color.web("#3b3b3b"));
+            compareArray[0].setOnMouseExited(event -> compareArray[0].setFill(Color.web("#3b3b3b")));
+
+            compareArray[1].setFill(Color.web("#3b3b3b"));
+            compareArray[1].setOnMouseExited(event -> compareArray[1].setFill(Color.web("#3b3b3b")));
+
+            compareArray[0] = coo;
+            coo.setFill(Color.YELLOW);
+            coo.setOnMouseExited(event -> coo.setFill(Color.YELLOW));
+
+            compareArray[1] = null;
+        }
     }
 
     /*
@@ -82,7 +105,11 @@ public class WorldMap {
             if array[0] isn't null/empty add it to array[1] and run method above
                 with the parameters of array[0] and array[1]
 
+        If you want to switch have a function thats switches array[0] and array[1]
+        then run the same function. And make sure to switch the colors.
+
      */
+
 
     private void sayHi() {
         //MigrationAPI api = new MigrationAPI(codes);

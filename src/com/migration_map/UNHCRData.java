@@ -5,7 +5,8 @@ public class UNHCRData {
     private String coo;
     private String coa;
     private int refugees;
-    private int asylumSeekers;
+    private int asylum_seekers;
+    private int idps;
 
     public int getYear() {
         return year;
@@ -40,10 +41,30 @@ public class UNHCRData {
     }
 
     public int getAsylumSeekers() {
-        return asylumSeekers;
+        return asylum_seekers;
     }
 
-    public void setAsylumSeekers(int asylumSeekers) {
-        this.asylumSeekers = asylumSeekers;
+    public void setAsylumSeekers(int asylum_seekers) {
+        this.asylum_seekers = asylum_seekers;
+    }
+
+    public int getIdps() {
+        return idps;
+    }
+
+    public void setIdps(int idps) {
+        this.idps = idps;
+    }
+
+    @Override
+    public String toString() {
+        return "UNHCRData{" +
+                "year=" + year +
+                ", coo='" + coo + '\'' +
+                ", coa='" + coa + '\'' +
+                ", refugees=" + refugees +
+                ", asylum_seekers=" + asylum_seekers +
+                ", idps=" + idps +
+                '}';
     }
 }

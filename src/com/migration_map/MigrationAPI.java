@@ -115,7 +115,7 @@ public class MigrationAPI {
                 + "&yearFrom=" + yearFrom
                 + "&yearTo=" + yearTo
                 + "&coo=" + coo
-                + "&coa" + coa);
+                + "&coa=" + coa);
 
 
         connection = (HttpURLConnection) url.openConnection();
@@ -159,6 +159,7 @@ public class MigrationAPI {
         scanner.close();
 
         String info = informationString.toString();
+        System.out.println(info);
 
         /*
         #######
@@ -173,8 +174,8 @@ public class MigrationAPI {
 
         List<UNHCRData> dataU = data.getItems();
 
-
         for (UNHCRData dataI : dataU) {
+            System.out.println(dataI.toString());
             output = dataI.getRefugees();
         }
 

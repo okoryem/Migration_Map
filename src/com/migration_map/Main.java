@@ -31,11 +31,12 @@ public class Main extends Application{
         Pane root = new Pane();
         WorldMap worldMap = new WorldMap(primaryStage, root, codes);
         //System.out.println(worldMap.getCountry("AG"));
-        worldMap.paintCountry("CO");
+        //worldMap.paintCountry("CO");
         //MigrationAPI api = new MigrationAPI(codes);
 
-        System.out.println(worldMap.getApi().getRefugees("CO", "US"));
-        System.out.println(worldMap.getApi().getRefugees("UA", "US"));
+        //System.out.println(worldMap.getApi().getRefugees("CO", "US"));
+        //System.out.println(worldMap.getApi().getRefugees("UA", "US"));
+        //System.out.println(worldMap.getApi().getRefugees("MX", "US"));
         //System.out.println(codes.convertCode("CO"));
     }
 
