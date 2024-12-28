@@ -3,6 +3,7 @@ package com.migration_map;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -22,13 +23,14 @@ public class WorldMap {
     private MigrationAPI api;
     private final CountryCodes codes;
     private SVGPath[] compareArray = {null, null};
+    Label name = new Label();
 
     WorldMap(Stage primaryStage, Pane root, CountryCodes codes) {
         this.primaryStage = primaryStage;
         this.root = root;
         this.codes = codes;
         this.loadMap();
-        //this.loadOverLays();
+        this.loadOverLays();
         this.loadScene();
         api = new MigrationAPI(codes);
         //System.out.println(api.getRefugees("2022", "CO", "US"));
@@ -60,10 +62,11 @@ public class WorldMap {
 
     public void paintCountry(String name) {
         SVGPath country = getCountry(name);
-        country.setFill(Color.YELLOW);
+        country.setFill(Color.web("#f5a623"));
     }
 
     public void getRefugees(SVGPath coo, String year) {
+        System.out.println(compareArray.toString());
         if (coo == compareArray[0] && compareArray[1] == null) {
             return;
         }
@@ -72,14 +75,23 @@ public class WorldMap {
 
         if (compareArray[0] == null && compareArray[1] == null) {
             compareArray[0] = coo;
-            coo.setFill(Color.YELLOW);
-            coo.setOnMouseExited(event -> coo.setFill(Color.YELLOW));
+            coo.setFill(Color.web("#f5a623"));
+            coo.setOnMouseExited(event -> coo.setFill(Color.web("#f5a623")));
             System.out.println(api.getIDPs(svgToCode.get(compareArray[0])));
+            name.setText("IDPS in "
+                    + svgToCode.get(compareArray[0])
+                    + ": "
+                    + api.getIDPs(svgToCode.get(compareArray[0])).toString());
         } else if (compareArray[0] != null && compareArray[1] == null) {
             compareArray[1] = coo;
-            coo.setFill(Color.BLUE);
-            coo.setOnMouseExited(event -> coo.setFill(Color.BLUE));
-            System.out.println(api.getRefugees(svgToCode.get(compareArray[0]), svgToCode.get(compareArray[1])));
+            coo.setFill(Color.web("#1c9ba0"));
+            coo.setOnMouseExited(event -> coo.setFill(Color.web("#1c9ba0")));
+            //System.out.println(api.getRefugees(svgToCode.get(compareArray[0]), svgToCode.get(compareArray[1])));
+            name.setText("Refugees from "
+                    + svgToCode.get(compareArray[0])
+                    + " to " + svgToCode.get(compareArray[1])
+                    + ": "
+                    + api.getRefugees(svgToCode.get(compareArray[0]), svgToCode.get(compareArray[1])).toString());
         } else if (compareArray[0] != null && compareArray[1] != null) {
             compareArray[0].setFill(Color.web("#3b3b3b"));
             compareArray[0].setOnMouseExited(event -> compareArray[0].setFill(Color.web("#3b3b3b")));
@@ -103,12 +115,13 @@ public class WorldMap {
         compareArray[0] = compareArray[1];
         compareArray[1] = temp;
 
-        compareArray[0].setFill(Color.YELLOW);
-        compareArray[0].setOnMouseExited(event -> compareArray[0].setFill(Color.YELLOW));
+        compareArray[0].setFill(Color.web("#f5a623"));
+        compareArray[0].setOnMouseExited(event -> compareArray[0].setFill(Color.web("#f5a623")));
 
-        compareArray[1].setFill(Color.BLUE);
-        compareArray[1].setOnMouseExited(event -> compareArray[1].setFill(Color.BLUE));
+        compareArray[1].setFill(Color.web("#1c9ba0"));
+        compareArray[1].setOnMouseExited(event -> compareArray[1].setFill(Color.web("#1c9ba0")));
         System.out.println(api.getRefugees(svgToCode.get(compareArray[0]), svgToCode.get(compareArray[1])));
+        name.setText(api.getRefugees(svgToCode.get(compareArray[0]), svgToCode.get(compareArray[1])).toString());
     }
     /*
     getRefugees from two countries draft
@@ -180,12 +193,33 @@ public class WorldMap {
     }
 
     private void loadOverLays() {
+        root.setStyle("-fx-background-color: #1c1c1c;");
         Pane labels = new Pane();
-        Label name = new Label();
-        name.setText("Hi");
+        name.setText("");
         name.setLayoutX(30);
-        name.setLayoutY(30);
-        labels.getChildren().add(name);
-        this.root.getChildren().add(labels);
+        name.setLayoutY(675);
+
+        name.setPrefWidth(350);
+        name.setPrefHeight(50);
+
+        name.setStyle("-fx-text-fill: #f0f0f0;" +                 // Text color
+                "-fx-background-color: #3b3b3b;" +         // Background color
+                "-fx-border-color: #666666;" +             // Border color
+                "-fx-border-width: 2px;" +                 // Border width
+                "-fx-font-family: 'Arial', 'Verdana';" +   // Font family
+                "-fx-font-size: 18px;" +                   // Font size
+                "-fx-padding: 10px;" +                     // Padding
+                "-fx-border-radius: 10px;" +               // Rounded border
+                "-fx-background-radius: 10px;"             // Rounded background
+        );
+
+        DropShadow dropShadow = new DropShadow();
+        dropShadow.setRadius(5.0);
+        dropShadow.setOffsetX(3.0);
+        dropShadow.setOffsetY(3.0);
+        dropShadow.setColor(Color.BLACK);
+        name.setEffect(dropShadow);
+        //labels.getChildren().add(name);
+        this.root.getChildren().add(name);
     }
 }
