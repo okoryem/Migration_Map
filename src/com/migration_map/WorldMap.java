@@ -64,16 +64,17 @@ public class WorldMap {
     }
 
     public void getRefugees(SVGPath coo, String year) {
-        //System.out.println(api.getRefugees(svgToCode.get(coo), "US"));
         if (coo == compareArray[0] && compareArray[1] == null) {
-            System.out.println(api.getRefugees(svgToCode.get(compareArray[0]), svgToCode.get(compareArray[1])));
+            return;
         }
+
+
 
         if (compareArray[0] == null && compareArray[1] == null) {
             compareArray[0] = coo;
             coo.setFill(Color.YELLOW);
             coo.setOnMouseExited(event -> coo.setFill(Color.YELLOW));
-            //System.out.println(api.getRefugees(svgToCode.get(compareArray[0]), svgToCode.get(compareArray[1])));
+            System.out.println(api.getIDPs(svgToCode.get(compareArray[0])));
         } else if (compareArray[0] != null && compareArray[1] == null) {
             compareArray[1] = coo;
             coo.setFill(Color.BLUE);
@@ -86,14 +87,29 @@ public class WorldMap {
             compareArray[1].setFill(Color.web("#3b3b3b"));
             compareArray[1].setOnMouseExited(event -> compareArray[1].setFill(Color.web("#3b3b3b")));
 
-            compareArray[0] = coo;
-            coo.setFill(Color.YELLOW);
-            coo.setOnMouseExited(event -> coo.setFill(Color.YELLOW));
+            if (coo == compareArray[1]) {
+                switchCountries();
+            } else {
+                compareArray[0] = null;
+                compareArray[1] = null;
+                getRefugees(coo, year);
+            }
 
-            compareArray[1] = null;
         }
     }
 
+    private void switchCountries() {
+        SVGPath temp = compareArray[0];
+        compareArray[0] = compareArray[1];
+        compareArray[1] = temp;
+
+        compareArray[0].setFill(Color.YELLOW);
+        compareArray[0].setOnMouseExited(event -> compareArray[0].setFill(Color.YELLOW));
+
+        compareArray[1].setFill(Color.BLUE);
+        compareArray[1].setOnMouseExited(event -> compareArray[1].setFill(Color.BLUE));
+        System.out.println(api.getRefugees(svgToCode.get(compareArray[0]), svgToCode.get(compareArray[1])));
+    }
     /*
     getRefugees from two countries draft
 

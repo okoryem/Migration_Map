@@ -17,8 +17,8 @@ public class MigrationAPI {
     private String yearFrom;
     private String yearTo;
     private String year;
-    private String coo = "COL";
-    private String coa = "USA";
+    private String coo;
+    private String coa;
     private HttpURLConnection connection;
     private final CountryCodes codes;
 
@@ -92,30 +92,21 @@ public class MigrationAPI {
         year = "2023";
         coo = "COL";
         coa = "USA";
-
-        /*
-        try {
-            connect();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-         */
-
     }
 
 
-    private void connect() throws Exception{
+    private void connect(URL url) throws Exception{
         if (connection != null) {
             connection.disconnect();
         }
 
-         this.url = new URL("https://api.unhcr.org/population/v1/population/?"
-                + "limit=" + limit
-                + "&yearFrom=" + yearFrom
-                + "&yearTo=" + yearTo
-                + "&coo=" + coo
-                + "&coa=" + coa);
+        /*
+            Have this function take in an url
+            If for two country use getRefugees() and the url below
+            If for one country use new getIDPs() and use url with out coa
+
+            Set url at the start of each function after converting codes
+         */
 
 
         connection = (HttpURLConnection) url.openConnection();
@@ -131,16 +122,55 @@ public class MigrationAPI {
 
 
     public Integer getRefugees(String cooTwoLetter, String coaTwoLetter) {
-        String convertedCoo = codes.convertCode(cooTwoLetter);
-        String convertedCoa = codes.convertCode(coaTwoLetter);
-        setUrlParameters(convertedCoo, convertedCoa);
+        setCoo(codes.convertCode(cooTwoLetter));
+        setCoa(codes.convertCode(coaTwoLetter));
 
         try {
-            connect();
+            this.url = new URL("https://api.unhcr.org/population/v1/population/?"
+                    + "limit=" + limit
+                    + "&yearFrom=" + yearFrom
+                    + "&yearTo=" + yearTo
+                    + "&coo=" + coo
+                    + "&coa=" + coa);
+            connect(url);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
 
+        Integer output = null;
+        for (UNHCRData dataI : getData(url)) {
+            System.out.println(dataI.toString());
+            output = dataI.getRefugees();
+        }
+
+        return output;
+    }
+
+    public Integer getIDPs(String cooTwoLetter) {
+        setCoo(codes.convertCode(cooTwoLetter));
+
+        try {
+            this.url = new URL("https://api.unhcr.org/population/v1/population/?"
+                    + "limit=" + limit
+                    + "&yearFrom=" + yearFrom
+                    + "&yearTo=" + yearTo
+                    + "&coo=" + coo);
+            connect(url);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        Integer output = null;
+        for (UNHCRData dataI : getData(url)) {
+            System.out.println(dataI.toString());
+            output = dataI.getIdps();
+        }
+
+        return output;
+    }
+
+
+    private List<UNHCRData> getData(URL url) {
         StringBuilder informationString = new StringBuilder();
         Scanner scanner;
         try {
@@ -149,65 +179,18 @@ public class MigrationAPI {
             throw new RuntimeException(e);
         }
 
-        Integer output = null;
 
         while (scanner.hasNext()) {
             informationString.append(scanner.nextLine());
         }
 
-
         scanner.close();
 
         String info = informationString.toString();
-        System.out.println(info);
-
-        /*
-        #######
-        #######
-        Error somehwere in here
-        #######
-        #######
-         */
-
         Gson gson = new Gson();
         UNHCRResponse data = gson.fromJson(info, UNHCRResponse.class);
 
-        List<UNHCRData> dataU = data.getItems();
-
-        for (UNHCRData dataI : dataU) {
-            System.out.println(dataI.toString());
-            output = dataI.getRefugees();
-        }
-
-        return output;
-
-        /*
-        #######
-        #######
-        #######
-        #######
-         */
-    }
-
-    private void setUrlParameters(String newCoo, String newCoa) {
-        /*
-        try {
-            URL url = new URL("https://api.unhcr.org/population/v1/population/?"
-                    + "limit=" + limit
-                    + "&yearFrom=" + yearFrom
-                    + "&yearTo=" + yearTo
-                    + "&coo=" + newCoo
-                    + "&coa" + newCoa);
-
-            connect();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-
-         */
-        this.coo = newCoo;
-        this.coa = newCoa;
-
+        return data.getItems();
     }
 }
 
