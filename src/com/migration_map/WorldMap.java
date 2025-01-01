@@ -5,7 +5,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.effect.DropShadow;
-import javafx.scene.layout.Background;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.SVGPath;
@@ -37,11 +36,6 @@ public class WorldMap {
         this.loadOverLays();
         this.loadScene();
         api = new MigrationAPI(codes);
-        //System.out.println(api.getRefugees("2022", "CO", "US"));
-        //System.out.println(svgCountries.get("CO"));
-        //System.out.println(svgToCode.get(getCountry("CO")));
-        //System.out.println("conversion: " + svgToCode.get("CO"));
-        //System.out.println("conversion: " + svgToCode.get("AF"));
     }
 
     public MigrationAPI getApi() {
@@ -84,15 +78,6 @@ public class WorldMap {
             coo.setOnMouseEntered(event -> coo.setFill(Color.web("#666666")));
             coo.setOnMouseExited(event -> coo.setFill(Color.web("#f5a623")));
 
-            /*
-            System.out.println(api.getIDPs(svgToCode.get(compareArray[0])));
-            name.setText("IDPS in "
-                    + svgToCode.get(compareArray[0])
-                    + ": "
-                    + api.getIDPs(svgToCode.get(compareArray[0])).toString());
-
-             */
-
 
             System.out.println(api.getIDPs(svgToCode.get(compareArray[0])));
             name.setText("There are "
@@ -105,15 +90,7 @@ public class WorldMap {
             coo.setFill(Color.web("#1c9ba0"));
             coo.setOnMouseEntered(event -> coo.setFill(Color.web("#666666")));
             coo.setOnMouseExited(event -> coo.setFill(Color.web("#1c9ba0")));
-            /*
-            //System.out.println(api.getRefugees(svgToCode.get(compareArray[0]), svgToCode.get(compareArray[1])));
-            name.setText("Refugees from "
-                    + svgToCode.get(compareArray[0])
-                    + " to " + svgToCode.get(compareArray[1])
-                    + ": "
-                    + api.getRefugees(svgToCode.get(compareArray[0]), svgToCode.get(compareArray[1])).toString());
 
-             */
 
             name.setText("There are "
                     + api.getRefugees(svgToCode.get(compareArray[0]), svgToCode.get(compareArray[1])).toString()
@@ -121,10 +98,6 @@ public class WorldMap {
                     + codes.getCountryName(svgToCode.get(compareArray[0]))
                     + " in "
                     + codes.getCountryName(svgToCode.get(compareArray[1])));
-
-
-
-            //name.setText(svgToCode.get(compareArray[0]) + " => " + svgToCode.get(compareArray[1]));
 
         } else if (compareArray[0] != null && compareArray[1] != null) {
 
@@ -164,10 +137,6 @@ public class WorldMap {
 
         SVGPath tempFirst = compareArray[0];
         SVGPath tempSecond = compareArray[1];
-        /*
-        compareArray[0] = compareArray[1];
-        compareArray[1] = temp;
-         */
 
         getRefugees(tempSecond);
         getRefugees(tempFirst);
@@ -197,17 +166,9 @@ public class WorldMap {
     }
 
 
-    private void sayHi() {
-        //MigrationAPI api = new MigrationAPI(codes);
-        //System.out.println("HI");
-        //System.out.println(api.getRefugees(svgToCode.get("CO"), "US"));
-        //System.out.println(api.getRefugees(svgToCode.get("AF"), "US"));
-    }
-
     private void loadMap () {
         try {
             mapPaths = SVGPathExtractor.extractPaths("/Users/macbook/IdeaProjects/Migration_Map/world.svg");
-            //System.out.println(getCountry("AF"));
             mapGroup = new Group();
 
             for (Map.Entry<String, String> entry : mapPaths.entrySet()) {
@@ -220,9 +181,7 @@ public class WorldMap {
                 mapPath.setStroke(Color.web("#4b4b4b"));
                 mapPath.setOnMouseEntered(event -> mapPath.setFill(Color.web("#666666")));
                 mapPath.setOnMouseExited(event -> mapPath.setFill(Color.web("#3b3b3b")));
-                //mapPath.setOnMouseClicked(event -> System.out.println(getRefugees(mapPath, "2022")));
                 mapPath.setOnMouseClicked(event -> getRefugees(mapPath));
-                //mapPath.setOnMouseClicked(event -> sayHi());
 
                 mapGroup.getChildren().add(mapPath);
 
@@ -234,7 +193,6 @@ public class WorldMap {
             mapGroup.setScaleX(1.1);
             mapGroup.setScaleY(1.1);
             root.getChildren().add(mapGroup);
-            //loadOverLays();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -262,15 +220,15 @@ public class WorldMap {
         name.setPrefHeight(75);
         name.setWrapText(true);
 
-        name.setStyle("-fx-text-fill: #f0f0f0;" +                 // Text color
-                "-fx-background-color: #3b3b3b;" +         // Background color
-                "-fx-border-color: #666666;" +             // Border color
-                "-fx-border-width: 2px;" +                 // Border width
-                "-fx-font-family: 'Arial', 'Verdana';" +   // Font family
-                "-fx-font-size: 14px;" +                   // Font size
-                "-fx-padding: 10px;" +                     // Padding
-                "-fx-border-radius: 10px;" +               // Rounded border
-                "-fx-background-radius: 10px;"             // Rounded background
+        name.setStyle("-fx-text-fill: #f0f0f0;" +
+                "-fx-background-color: #3b3b3b;" +
+                "-fx-border-color: #666666;" +
+                "-fx-border-width: 2px;" +
+                "-fx-font-family: 'Arial', 'Verdana';" +
+                "-fx-font-size: 14px;" +
+                "-fx-padding: 10px;" +
+                "-fx-border-radius: 10px;" +
+                "-fx-background-radius: 10px;"
         );
 
         DropShadow dropShadow = new DropShadow();
@@ -291,15 +249,15 @@ public class WorldMap {
         clearButton.setPrefWidth(100);
         clearButton.setPrefHeight(15);
 
-        clearButton.setStyle("-fx-text-fill: #f0f0f0;" +                 // Text color
-                "-fx-background-color: #3b3b3b;" +         // Background color
-                "-fx-border-color: #666666;" +             // Border color
-                "-fx-border-width: 2px;" +                 // Border width
-                "-fx-font-family: 'Arial', 'Verdana';" +   // Font family
-                "-fx-font-size: 18px;" +                   // Font size
-                "-fx-padding: 10px;" +                     // Padding
-                "-fx-border-radius: 10px;" +               // Rounded border
-                "-fx-background-radius: 10px;"             // Rounded background
+        clearButton.setStyle("-fx-text-fill: #f0f0f0;" +
+                "-fx-background-color: #3b3b3b;" +
+                "-fx-border-color: #666666;" +
+                "-fx-border-width: 2px;" +
+                "-fx-font-family: 'Arial', 'Verdana';" +
+                "-fx-font-size: 18px;" +
+                "-fx-padding: 10px;" +
+                "-fx-border-radius: 10px;" +
+                "-fx-background-radius: 10px;"
         );
 
         clearButton.setOnMouseEntered(event -> clearButton.setStyle("-fx-text-fill: #f0f0f0;" +
@@ -338,15 +296,15 @@ public class WorldMap {
         switchButton.setPrefWidth(100);
         switchButton.setPrefHeight(15);
 
-        switchButton.setStyle("-fx-text-fill: #f0f0f0;" +                 // Text color
-                "-fx-background-color: #3b3b3b;" +         // Background color
-                "-fx-border-color: #666666;" +             // Border color
-                "-fx-border-width: 2px;" +                 // Border width
-                "-fx-font-family: 'Arial', 'Verdana';" +   // Font family
-                "-fx-font-size: 18px;" +                   // Font size
-                "-fx-padding: 10px;" +                     // Padding
-                "-fx-border-radius: 10px;" +               // Rounded border
-                "-fx-background-radius: 10px;"             // Rounded background
+        switchButton.setStyle("-fx-text-fill: #f0f0f0;" +
+                "-fx-background-color: #3b3b3b;" +
+                "-fx-border-color: #666666;" +
+                "-fx-border-width: 2px;" +
+                "-fx-font-family: 'Arial', 'Verdana';" +
+                "-fx-font-size: 18px;" +
+                "-fx-padding: 10px;" +
+                "-fx-border-radius: 10px;" +
+                "-fx-background-radius: 10px;"
         );
 
         switchButton.setOnMouseEntered(event -> switchButton.setStyle("-fx-text-fill: #f0f0f0;" +

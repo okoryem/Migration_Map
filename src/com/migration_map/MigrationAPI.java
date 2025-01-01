@@ -1,8 +1,6 @@
 package com.migration_map;
 
 
-
-
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -100,13 +98,6 @@ public class MigrationAPI {
             connection.disconnect();
         }
 
-        /*
-            Have this function take in an url
-            If for two country use getRefugees() and the url below
-            If for one country use new getIDPs() and use url with out coa
-
-            Set url at the start of each function after converting codes
-         */
 
 
         connection = (HttpURLConnection) url.openConnection();

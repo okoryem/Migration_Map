@@ -11,24 +11,12 @@ public class SVGPathExtractor {
 
         Map<String, String> paths = new HashMap<>();
 
-        // Use regex to match <path> elements with 'id' and 'd' attributes
-        // "<path[^>]*\\s(id=\"([^\"]*)\")?[^>]*\\sd=\"([^\"]*)\""
-        /*
-        Pattern pattern = Pattern.compile(
-                "<path[^>]*\\s(id=\"([^\"]*)\")?[^>]*\\sd=\"([^\"]*)\"",
-                Pattern.CASE_INSENSITIVE | Pattern.DOTALL
-        );
-
-         */
 
         Pattern pattern = Pattern.compile(
                 "<path[^>]*\\s(id=\"([^\"]*)\")?[^>]*\\sd=\"([^\"]*)\"[^>]*>",
                 Pattern.CASE_INSENSITIVE | Pattern.DOTALL
         );
 
-
-
-        //"<path[^>]*\\bid=\"([^\"]*)\"[^>]*\\bd=\"([^\"]*)\"[^>]*>"
 
 
         Matcher matcher = pattern.matcher(svgContent);
@@ -41,28 +29,11 @@ public class SVGPathExtractor {
             String title = extractTitle(pathId);
             String pathData = matcher.group(3).trim();
 
-            //System.out.println(id);
-            //System.out.println(pathData);
             if (id.equals(" ")) {
                 id = "unknown-" + counter++;
             }
             paths.put(id, pathData);
         }
-        //System.out.println(counter);
-
-
-        //paths.forEach((key, value) -> System.out.println("ID: " + key + ", Path: " + value));
-        //paths.forEach((key, value) -> System.out.println("ID: " + key));
-        //System.out.println(paths.get("AF"));
-
-        /*
-        for (String id : paths.keySet()) {
-            if (!id.startsWith("unknown")) {
-                System.out.println(id);
-            }
-        }
-
-         */
 
         return paths;
     }
