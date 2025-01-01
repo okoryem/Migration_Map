@@ -38,6 +38,7 @@ public class SVGPathExtractor {
         while (matcher.find()) {
             String pathId = matcher.group(0);
             String id = extractID(pathId);
+            String title = extractTitle(pathId);
             String pathData = matcher.group(3).trim();
 
             //System.out.println(id);
@@ -68,6 +69,16 @@ public class SVGPathExtractor {
 
     private static String extractID(String input) {
         Pattern pattern = Pattern.compile("id=\"(.*?)\"");
+        Matcher matcher = pattern.matcher(input);
+
+        if(matcher.find()) {
+            return matcher.group(1);
+        }
+        return " ";
+    }
+
+    private static String extractTitle(String input) {
+        Pattern pattern = Pattern.compile("title=\"(.*?)\"");
         Matcher matcher = pattern.matcher(input);
 
         if(matcher.find()) {
