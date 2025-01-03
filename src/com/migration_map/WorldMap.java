@@ -3,6 +3,7 @@ package com.migration_map;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.Pane;
@@ -26,6 +27,8 @@ public class WorldMap {
     private final Label name = new Label();
     private final Button clearButton = new Button();
     private final Button switchButton = new Button();
+    //private final ComboBox<String> dropDown = new ComboBox<>();
+    private final ComboBox<String> dataSelect = new ComboBox<>();
 
 
     WorldMap(Stage primaryStage, Pane root, CountryCodes codes) {
@@ -64,8 +67,6 @@ public class WorldMap {
     }
 
     public void getRefugees(SVGPath coo) {
-        System.out.println(compareArray.toString());
-
         if (coo == compareArray[0] && compareArray[1] == null) {
             return;
         }
@@ -79,7 +80,8 @@ public class WorldMap {
             coo.setOnMouseExited(event -> coo.setFill(Color.web("#f5a623")));
 
 
-            System.out.println(api.getIDPs(svgToCode.get(compareArray[0])));
+            //System.out.println(api.getIDPs(svgToCode.get(compareArray[0])));
+
             name.setText("There are "
                     + api.getIDPs(svgToCode.get(compareArray[0])).toString()
                     + " IDPs in "
@@ -93,8 +95,10 @@ public class WorldMap {
 
 
             name.setText("There are "
-                    + api.getRefugees(svgToCode.get(compareArray[0]), svgToCode.get(compareArray[1])).toString()
-                    + " refugees from "
+                    + api.getRefugees(svgToCode.get(compareArray[0]), svgToCode.get(compareArray[1]), dataSelect.getValue()).toString()
+                    + " "
+                    + dataSelect.getValue()
+                    + " from "
                     + codes.getCountryName(svgToCode.get(compareArray[0]))
                     + " in "
                     + codes.getCountryName(svgToCode.get(compareArray[1])));
@@ -328,7 +332,53 @@ public class WorldMap {
                 "-fx-background-radius: 10px;"
         ));
         switchButton.setOnMouseClicked(event -> switchCountries());
-
+        switchButton.setEffect(dropShadow);
         this.root.getChildren().add(switchButton);
+
+        /*
+        #################
+        #################
+        #################
+
+        Add drop down menu for country selection
+
+        #################
+        #################
+        #################
+         */
+
+        /*
+        // Dropdown menu
+        for (String each : codes.getCountriesNames()) {
+            dropDown.getItems().add(codes.getCountryName(each));
+        }
+
+        dropDown.setOnAction(event -> {
+            String selectedOption = dropDown.getValue();
+            getRefugees(svgCountries.get(codes.getNamesToCode().get(selectedOption)));
+        });
+
+        dropDown.setLayoutX(30);
+        dropDown.setLayoutY(30);
+
+        dropDown.setPrefWidth(100);
+        dropDown.setPrefHeight(15);
+
+        this.root.getChildren().add(dropDown);
+         */
+
+        // Refugees vs Asylum Seekers dropdown menu
+        dataSelect.getItems().addAll("refugees", "asylum seekers");
+        dataSelect.setValue("refugees");
+
+        dataSelect.setLayoutX(150);
+        dataSelect.setLayoutY(610);
+
+        dataSelect.setPrefWidth(100);
+        dataSelect.setPrefHeight(15);
+
+        this.root.getChildren().add(dataSelect);
+
+
     }
 }

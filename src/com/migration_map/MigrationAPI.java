@@ -112,15 +112,14 @@ public class MigrationAPI {
     }
 
 
-    public Integer getRefugees(String cooTwoLetter, String coaTwoLetter) {
+    public Integer getRefugees(String cooTwoLetter, String coaTwoLetter, String selection) {
         setCoo(codes.convertCode(cooTwoLetter));
         setCoa(codes.convertCode(coaTwoLetter));
 
         try {
             this.url = new URL("https://api.unhcr.org/population/v1/population/?"
                     + "limit=" + limit
-                    + "&yearFrom=" + yearFrom
-                    + "&yearTo=" + yearTo
+                    + "&year=" + year
                     + "&coo=" + coo
                     + "&coa=" + coa);
             connect(url);
@@ -129,9 +128,17 @@ public class MigrationAPI {
         }
 
         Integer output = null;
-        for (UNHCRData dataI : getData(url)) {
-            System.out.println(dataI.toString());
-            output = dataI.getRefugees();
+
+        if (selection.equals("refugees")) {
+            for (UNHCRData dataI : getData(url)) {
+                //System.out.println(dataI.toString());
+                output = dataI.getRefugees();
+            }
+        } else if (selection.equals("asylum seekers")) {
+            for (UNHCRData dataI : getData(url)) {
+                // System.out.println(dataI.toString());
+                output = dataI.getAsylumSeekers();
+            }
         }
 
         return output;
@@ -143,8 +150,7 @@ public class MigrationAPI {
         try {
             this.url = new URL("https://api.unhcr.org/population/v1/population/?"
                     + "limit=" + limit
-                    + "&yearFrom=" + yearFrom
-                    + "&yearTo=" + yearTo
+                    + "&year=" + year
                     + "&coo=" + coo);
             connect(url);
         } catch (Exception e) {
@@ -159,6 +165,8 @@ public class MigrationAPI {
 
         return output;
     }
+
+
 
 
     private List<UNHCRData> getData(URL url) {
