@@ -1,4 +1,4 @@
-Migration Map Visualization Tool
+## Migration Map Visualization Tool
 
 
 An interactive Java-based application for visualizing migration data, 
@@ -6,7 +6,7 @@ specifically focused on refugees, asylum seekers, and internally displaced
 persons (IDPs). The application integrates with the UNHCR API to display 
 real-time migration data on a world map using JavaFX.
 
-Features:
+### Features:
 
 - Interactive World Map: 
   - Highlight countries on a clickable SVG-based world map.
@@ -24,7 +24,7 @@ Features:
  
 
 
-Technologies Used:
+### Technologies Used:
 
 - Programming Language: 
   - Java
@@ -40,17 +40,15 @@ Technologies Used:
  
 
 
-Setup Instructions:
+### Setup Instructions:
 
-
-Prerequisites:
+#### Prerequisites:
 
 - JDK 8 or higher installed.
 - IDE such as IntelliJ IDEA, Eclipse, or any text editor supporting JavaFX.
 - Internet connection for accessing the UNHCR API.
-
   
-Installation:
+#### Installation:
 
 Clone the repository:
 
@@ -67,7 +65,7 @@ Ensure the world.svg file is placed in the correct directory as referenced in th
 
 
 
-How to Use:
+### How to Use:
 
 - Start the Application:
   - Launch the application to view the interactive map.
