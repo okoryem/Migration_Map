@@ -80,3 +80,11 @@ How to Use:
 - Clear or Switch:
   - Use the CLEAR button to reset your selections.
   - Use the SWITCH button to swap COO and COA.
+ 
+
+![Untitled 3](https://github.com/user-attachments/assets/51f26608-1964-4881-8adb-5fc81491e719)
+![Untitled 4](https://github.com/user-attachments/assets/6d5d993f-b578-4f7d-8e42-39acc45c2781)
+![Untitled 2](https://github.com/user-attachments/assets/7bc977fa-cf34-46e8-86fb-9f47e217f15a)
+![Untitled](https://github.com/user-attachments/assets/53cfe521-59fd-4356-a6ca-18a81eb4f008)
+
+
