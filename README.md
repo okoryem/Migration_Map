@@ -6,6 +6,12 @@ specifically focused on refugees, asylum seekers, and internally displaced
 persons (IDPs). The application integrates with the UNHCR API to display 
 real-time migration data on a world map using JavaFX.
 
+### Motivation
+
+As a student double majoring in Global Studies with a Concentration in Migration and Computer Science, I have always sought ways to combine my academic interests into meaningful projects. Migration has long been a significant and evolving topic, and in recent years, it has taken center stage in global discussions and the media. With millions of individuals displaced due to conflicts, natural disasters, and persecution, the need for accessible, real-world data on this topic is more important than ever.
+
+This project was born from my desire to create a tool that not only visualizes real-time migration data from the UNHCR but also serves as an educational resource. By highlighting the numbers of refugees, asylum seekers, and internally displaced persons (IDPs) across different regions, the application aims to foster understanding and awareness of the scale and nuances of migration. Additionally, it provides users with clear definitions and context for these terms, making it an informative tool for anyone looking to learn more about migration, a topic that continues to grow in relevance worldwide.
+
 ### Features:
 
 - Interactive World Map: 
