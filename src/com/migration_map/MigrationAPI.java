@@ -92,7 +92,13 @@ public class MigrationAPI {
         coa = "USA";
     }
 
-
+    /*
+     * This method connects to the UNHCR api. Throws a RuntimeException
+     * if there is an error connecting
+     *
+     * @param url is the URL of the UNHCR api
+     * @return void
+     */
     private void connect(URL url) throws Exception{
         if (connection != null) {
             connection.disconnect();
@@ -111,7 +117,15 @@ public class MigrationAPI {
         }
     }
 
-
+    /*
+     * This method sets fetches Refugee or Asylum seeker data from
+     * the UNHCR url and from the chosen countries.
+     *
+     * @param cooTwoLetter the two-letter code of the country of origin
+     * @param coaTwoLetter the two-letter code of the country of asylum
+     * @param selection is the Choice of Refugees or Asylum Seekers
+     * @return the number fetched from the UNHCR API
+     */
     public Integer getRefugees(String cooTwoLetter, String coaTwoLetter, String selection) {
         setCoo(codes.convertCode(cooTwoLetter));
         setCoa(codes.convertCode(coaTwoLetter));
@@ -144,6 +158,13 @@ public class MigrationAPI {
         return output;
     }
 
+    /*
+     * This method sets fetches IDP data from
+     * the UNHCR url and from the chosen country.
+     *
+     * @param cooTwoLetter the two-letter code of the country of origin
+     * @return the number fetched from the UNHCR API
+     */
     public Integer getIDPs(String cooTwoLetter) {
         setCoo(codes.convertCode(cooTwoLetter));
 
@@ -168,7 +189,13 @@ public class MigrationAPI {
 
 
 
-
+    /*
+     * This method converts the retrieved JSON data from the url into
+     * a class for easier access to different pieces of information
+     *
+     * @param url is the URL of the UNHCR api
+     * @return a List of UNHCRData class each entry representing a different year
+     */
     private List<UNHCRData> getData(URL url) {
         StringBuilder informationString = new StringBuilder();
         Scanner scanner;

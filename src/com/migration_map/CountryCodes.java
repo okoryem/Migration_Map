@@ -28,6 +28,13 @@ public class CountryCodes {
 
      */
 
+    /*
+     * This method loads in the csv of all the country codes
+     * and puts this in a HashMap.
+     *
+     * @param void
+     * return void
+     */
     private void loadFile() {
         try {
             Scanner fileReader = new Scanner(csvFile);
@@ -52,10 +59,24 @@ public class CountryCodes {
         }
     }
 
+    /*
+     * This method converts a two-letter country code
+     * into the ISO country code (three-letter)
+     *
+     * @param twoLetter country code (String)
+     * @return three-letter ISO country code (String)
+     */
     public String convertCode(String twoLetter) {
         return codes2.get(twoLetter)[1];
     }
 
+    /*
+     * This method converts a two-letter country code
+     * into the country name
+     *
+     * @param twoLetter country code (String)
+     * @return country name (String)
+     */
     public String getCountryName(String twoLetter) {
         return codes2.get(twoLetter)[0];
     }

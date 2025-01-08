@@ -10,9 +10,9 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.SVGPath;
 import javafx.stage.Stage;
-
 import java.util.HashMap;
 import java.util.Map;
+
 
 public class WorldMap {
     private final Pane root;
@@ -30,7 +30,13 @@ public class WorldMap {
     //private final ComboBox<String> dropDown = new ComboBox<>();
     private final ComboBox<String> dataSelect = new ComboBox<>();
 
-
+    /*
+     * Constructor for the WorldMap Class
+     *
+     *
+     *
+     *
+     */
     WorldMap(Stage primaryStage, Pane root, CountryCodes codes) {
         this.primaryStage = primaryStage;
         this.root = root;
@@ -66,28 +72,45 @@ public class WorldMap {
         country.setFill(Color.web("#f5a623"));
     }
 
+    /*
+     * This method fetches and displays the IDPs, Refugees, or Asylum Seekers
+     * based on a given SVGPath. The method also sets the colors of the SVGPaths
+     *
+     * @param coo (country of origin) is an SVGPath
+     * @return void
+     */
     public void getRefugees(SVGPath coo) {
+        // Checks to see if country is already selected (do nothing)
         if (coo == compareArray[0] && compareArray[1] == null) {
             return;
         }
 
 
-
         if (compareArray[0] == null && compareArray[1] == null) {
+            /*
+             If no country is previous selected paint
+             chosen SVGPath (country) yellow
+             and display the number of Internally
+             Displaced People in said country
+             */
             compareArray[0] = coo;
             coo.setFill(Color.web("#f5a623"));
             coo.setOnMouseEntered(event -> coo.setFill(Color.web("#666666")));
             coo.setOnMouseExited(event -> coo.setFill(Color.web("#f5a623")));
 
-
-            //System.out.println(api.getIDPs(svgToCode.get(compareArray[0])));
-
             name.setText("There are "
                     + api.getIDPs(svgToCode.get(compareArray[0])).toString()
-                    + " IDPs in "
+                    + " Internally Displaced Persons in "
                     + codes.getCountryName(svgToCode.get(compareArray[0])));
 
         } else if (compareArray[0] != null && compareArray[1] == null) {
+            /*
+             If country is previous selected paint
+             chosen SVGPath (country) blue and
+             display refugees or asylum seekers
+             from country of origin to country of
+             asylum depending on dropdown box selection
+             */
             compareArray[1] = coo;
             coo.setFill(Color.web("#1c9ba0"));
             coo.setOnMouseEntered(event -> coo.setFill(Color.web("#666666")));
@@ -104,7 +127,11 @@ public class WorldMap {
                     + codes.getCountryName(svgToCode.get(compareArray[1])));
 
         } else if (compareArray[0] != null && compareArray[1] != null) {
-
+            /*
+             If two countries are already selected
+             Reset the color of both SVGPaths and
+             recursively call this function
+             */
             SVGPath first = compareArray[0];
             SVGPath second = compareArray[1];
 
@@ -123,6 +150,13 @@ public class WorldMap {
         }
     }
 
+    /*
+     * This method switches the country of origin to the country of
+     * asylum and the country of asylum to the country of origin
+     *
+     * @param void
+     * @return void
+     */
     private void switchCountries() {
         if (compareArray[1] == null) {
             return;
@@ -146,6 +180,13 @@ public class WorldMap {
         getRefugees(tempFirst);
     }
 
+    /*
+     * This method clears the array that is storing the
+     * SVGPaths and sets them to the original color
+     *
+     * @param void
+     * @return void
+     */
     private void clearArray() {
         SVGPath first = compareArray[0];
         SVGPath second = compareArray[1];
@@ -169,7 +210,13 @@ public class WorldMap {
         name.setText("");
     }
 
-
+    /*
+     * This method loads the SVG in the window. The SVGPaths are also loaded
+     * where the properties are set and are put into HashMaps for accessing.
+     *
+     * @param void
+     * @return void
+     */
     private void loadMap () {
         try {
             mapPaths = SVGPathExtractor.extractPaths("/Users/macbook/IdeaProjects/Migration_Map/world.svg");
@@ -203,6 +250,12 @@ public class WorldMap {
 
     }
 
+    /*
+     * This method loads the JavaFX scene.
+     *
+     * @param void
+     * @return void
+     */
     private void loadScene() {
         Scene scene = new Scene(root, 800, 600, Color.web("1c1c1c"));
         primaryStage.setTitle("Migration Map");
@@ -211,6 +264,14 @@ public class WorldMap {
         primaryStage.show();
     }
 
+    /*
+     * This method loads and sets the properties of the JavaFX
+     * overlays (Data display label, Clear Button, Switch Button,
+     * and data Selection dropdown menu.
+     *
+     * @param void
+     * @return void
+     */
     private void loadOverLays() {
         root.setStyle("-fx-background-color: #1c1c1c;");
         Pane labels = new Pane();
@@ -229,7 +290,7 @@ public class WorldMap {
                 "-fx-border-color: #666666;" +
                 "-fx-border-width: 2px;" +
                 "-fx-font-family: 'Arial', 'Verdana';" +
-                "-fx-font-size: 14px;" +
+                "-fx-font-size: 18px;" +
                 "-fx-padding: 10px;" +
                 "-fx-border-radius: 10px;" +
                 "-fx-background-radius: 10px;"
@@ -378,7 +439,5 @@ public class WorldMap {
         dataSelect.setPrefHeight(15);
 
         this.root.getChildren().add(dataSelect);
-
-
     }
 }
