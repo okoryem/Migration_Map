@@ -9,6 +9,7 @@ import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.SVGPath;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import java.util.HashMap;
 import java.util.Map;
@@ -29,6 +30,8 @@ public class WorldMap {
     private final Button switchButton = new Button();
     //private final ComboBox<String> dropDown = new ComboBox<>();
     private final ComboBox<String> dataSelect = new ComboBox<>();
+
+    private Text paragraph = new Text();
 
     /*
      * Constructor for the WorldMap Class
@@ -82,6 +85,7 @@ public class WorldMap {
     public void getRefugees(SVGPath coo) {
         // Checks to see if country is already selected (do nothing)
         if (coo == compareArray[0] && compareArray[1] == null) {
+            changeText();
             return;
         }
 
@@ -102,7 +106,6 @@ public class WorldMap {
                     + api.getIDPs(svgToCode.get(compareArray[0])).toString()
                     + " Internally Displaced Persons in "
                     + codes.getCountryName(svgToCode.get(compareArray[0])));
-
         } else if (compareArray[0] != null && compareArray[1] == null) {
             /*
              If country is previous selected paint
@@ -145,9 +148,10 @@ public class WorldMap {
 
             compareArray[0] = null;
             compareArray[1] = null;
-
+            changeText();
             getRefugees(coo);
         }
+        changeText();
     }
 
     /*
@@ -208,6 +212,7 @@ public class WorldMap {
         compareArray[1] = null;
 
         name.setText("");
+        changeText();
     }
 
     /*
@@ -431,6 +436,8 @@ public class WorldMap {
         // Refugees vs Asylum Seekers dropdown menu
         dataSelect.getItems().addAll("refugees", "asylum seekers");
         dataSelect.setValue("refugees");
+        
+        dataSelect.setOnAction(event -> changeText());
 
         dataSelect.setLayoutX(150);
         dataSelect.setLayoutY(610);
@@ -439,5 +446,67 @@ public class WorldMap {
         dataSelect.setPrefHeight(15);
 
         this.root.getChildren().add(dataSelect);
+        
+        paragraph.setLayoutX(50);
+        paragraph.setLayoutY(40);
+
+        paragraph.setWrappingWidth(250);
+        paragraph.setStyle("-fx-text-fill: #f0f0f0;" +
+                "-fx-background-color: #3b3b3b;" +
+                "-fx-border-color: #666666;" +
+                "-fx-border-width: 2px;" +
+                "-fx-font-family: 'Arial', 'Verdana';" +
+                "-fx-font-size: 14px;" +
+                "-fx-padding: 10px;" +
+                "-fx-border-radius: 10px;" +
+                "-fx-background-radius: 10px;"
+        );
+        paragraph.setFill(Color.web("#f0f0f0"));
+
+        this.root.getChildren().add(paragraph);
+    }
+    
+    private void changeText() {
+        if (compareArray[0] == null) {
+            paragraph.setText("");
+            return;
+        }
+
+        if (compareArray[1] == null) {
+            paragraph.setText("Internally Displace Person: " +
+                    "Persons or groups of persons who have been forced or " +
+                    "obliged to flee or to leave their homes or places of habitual residence, " +
+                    "in particular as a result of or in order to avoid the effects of armed " +
+                    "conflict, situations of generalized violence, violations of human rights " +
+                    "or natural or human-made disasters, and who have not crossed an internationally " +
+                    "recognized state border." +
+                    "\n" +
+                    "- UNHCR");
+            return;
+        }
+
+        switch (dataSelect.getValue()) {
+            case "refugees":
+                paragraph.setText("The 1951 Refugee Convention defines a refugee as a person who" +
+                        "owing to well-founded fear of being persecuted for reasons of race, religion, " +
+                        "nationality, membership of a particular social group or political opinion, " +
+                        "is outside the country of [their] nationality and is unable or, owing to such " +
+                        "fear, is unwilling to avail [themself] of the protection of that country." +
+                        "\n" +
+                        "- UNHCR");
+                break;
+            case "asylum seekers":
+                paragraph.setText("An asylum-seeker is someone who intends to seek or is awaiting a " +
+                        "decision on their request for international protection. In some countries, " +
+                        "it is used as a legal term for a person who has applied for refugee status " +
+                        "and has not yet received a final decision on their claim." +
+                        "\n" +
+                        "- UNHCR");
+                break;
+            default:
+                paragraph.setText("");
+                break;
+        }
+
     }
 }
